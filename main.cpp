@@ -1,9 +1,13 @@
+// code to game snake modified by students of CUFE ,as a project of data structure course
+// this game is based on doubly linked list as data structure
+// simple note : this game is one or two players ,so any var. is defined twice for two players we put 2 at end of its name
 #include<iostream>
 #include<windows.h>
 #include<conio.h>
-
-int height=25;
-int width=100;
+#include<time.h> // to measure time.
+time_t start ,endi; // start and endi are var. to measure time
+int height=25;// height of window of game
+int width=100;//width of the window
 
 int gameover=0,counter,gameover2=0,choice,counter2;
 int lflag=0,rflag=0,uflag=0,dflag=0;
@@ -13,11 +17,12 @@ short fcount;
 using namespace std;
 class Snake
 {
-
+   // x and y are coordinate of head of snake
+   // fx and fy are coordinate of fruit
 	int x,y,fx,fy,x2,y2;
 	char playername[50],playername2[50];
 
-	struct node
+	struct node // doubly linked list
 	{
 		int nx,ny;
 		struct node *next;
@@ -27,17 +32,16 @@ class Snake
 	struct node *head=NULL;
 	struct node *head2=NULL;
 
-	void gotoxy(int x,int y)
+	void gotoxy(int x,int y)// function to go to any coordinate of command window
 	{
 		COORD pos={x,y};
 		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),pos);
 	}
 
-	void nameandscore()
+	void nameandscore()// to calculate score and print score and name
 	{
 		gotoxy(101,0);
 		textcolour(10);
-		cout<<"MADE BY= B.SUSHANT";
 		textcolour(6);
 		gotoxy(101,2);
 		cout<<playername<<"'s SCORE = "<<counter*100;
@@ -64,7 +68,7 @@ class Snake
 
 	public:
 
-	void window()
+	void window() // to make the window of game which contain snake .
 	{
 		if(choice==1)
 		textcolour(4);
@@ -88,7 +92,7 @@ class Snake
 	}
 
 
-	void setup()
+	void setup() // function to call function window() and design whole setup of game in command window
 	{
 		counter=0;
 		gameover=0;
@@ -149,14 +153,14 @@ class Snake
 		while(ptr!=NULL)
 		{
 			gotoxy(ptr->nx,ptr->ny);
-			cout<<"p";
+			cout<<" ";
 			ptr=ptr->next;
 		}
 	}
 
 
 
-	void draw()
+	void draw() // draw fruit in random places in window
 	{
 
 		drawlist(head,2);
@@ -168,13 +172,14 @@ class Snake
 		destroylist(head);
 		destroylist(head2);
 	}
+   // flags refer to direction of movements
 
 	void resetflag()
 	{
-		uflag=0;
-		dflag=0;
-		lflag=0;
-		rflag=0;
+		uflag=0; // for up
+		dflag=0;// for down
+		lflag=0;//for left
+		rflag=0;//for right
 	}
 
 		void resetflag2()
@@ -185,7 +190,7 @@ class Snake
 		rflag2=0;
 	}
 
-	void play()
+	void play() //  set flags and direction of movement
 	{
 		int h;
 		char ch;
@@ -244,7 +249,7 @@ class Snake
 		box(width/2-width/4,height/2-height/4,width/2+width/4,height/2+height/4);
 		textcolour(10);
 		gotoxy(width/2-20,height/2-10);
-		cout<<"*** WELCOME TO SNAKE GAME BY B.SUSHANT *** ";
+		cout<<"*** WELCOME TO OUR GAME *** ";
 		textcolour(9);
 		gotoxy(width/2-16,height/2-3);
 		cout<<"Press 1 For Single player \n";
@@ -344,7 +349,7 @@ class Snake
 
 
 
-	void run()
+	void run() //x and y are coordinate which head will go through
 	{
 		if(uflag==1)
 		y--;
@@ -367,7 +372,7 @@ class Snake
 
 	}
 
-	void dolist(struct node *h,int pp,int qq)
+	void dolist(struct node *h,int pp,int qq) // move the snake to new coordinate x and y
 	{
 		struct node *ptr,*prev;
 		ptr=h;
@@ -394,7 +399,7 @@ class Snake
 
 
 
-	void drawagain()
+	void drawagain() //// make snake cross borders when two players play
 	{
 		if(x==width)
 		{
@@ -435,7 +440,7 @@ class Snake
 		}
 	}
 
-	void generatefruit()
+	void generatefruit() // generate fruits in random places
 	{
 			label1:
 			fx=rand()%width;
@@ -447,7 +452,7 @@ class Snake
 			goto label2;
 	}
 
-	void checkfcount()
+	void checkfcount() // count of fruits when two players play
 	{
 		if(fcount==0)
 		{
@@ -456,7 +461,7 @@ class Snake
 		}
 	}
 
-	void checkup()
+	void checkup() // check for end of game
 	{
 		if(choice==1)
 		{
@@ -486,7 +491,7 @@ class Snake
 				fcount--;
 				checkfcount();
 			}
-			struct node *t,*ptr,*prev;
+			struct node *t,*ptr,*prev; // add one node at end of linked list when snake eats fruit
 			t=new node;
 			t->next=NULL;
 			t->back=NULL;
@@ -545,7 +550,7 @@ class Snake
 		}
 
 
-	void game1()
+	void game1() // call all above functions and run the game
 	{
 		char ch;
 		welcome1();
@@ -590,11 +595,18 @@ int main()
 	s.welcome();
 	if(choice==1)
 	{
+	     time(&start);
 		s.game1();
+		time(&endi);
+
 	}
 	if(choice==2)
 	{
 		s.game2();
 	}
 	system("exit");
+	double time_taken = double(endi - start);
+    cout << "Time taken by program is : " << fixed
+         << time_taken ;
+    cout << " sec " << endl;
 }
