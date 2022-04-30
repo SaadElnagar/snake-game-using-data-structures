@@ -4,10 +4,10 @@
 #include<iostream>
 #include<windows.h>
 #include<conio.h>
-#include<time.h> // to measure time.
+#include<time.h>    // to measure time.
 time_t start ,endi; // start and endi are var. to measure time
-int height=25;// height of window of game
-int width=100;//width of the window
+int height=25;      // height of window of game
+int width=100;      //width of the window
 
 int gameover=0,counter,gameover2=0,choice,counter2;
 int lflag=0,rflag=0,uflag=0,dflag=0;
@@ -17,8 +17,8 @@ short fcount;
 using namespace std;
 class Snake
 {
-   // x and y are coordinate of head of snake
-   // fx and fy are coordinate of fruit
+   // x and y are coordinate of the head of snake
+   // fx and fy are coordinate ofthe fruit
 	int x,y,fx,fy,x2,y2;
 	char playername[50],playername2[50];
 
@@ -32,13 +32,15 @@ class Snake
 	struct node *head=NULL;
 	struct node *head2=NULL;
 
-	void gotoxy(int x,int y)// function to go to any coordinate of command window
+	// function to go to any coordinate of command window
+	void gotoxy(int x,int y)
 	{
 		COORD pos={x,y};
 		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),pos);
 	}
 
-	void nameandscore()// to calculate score and print score and name
+    // to calculate score and print score and name
+	void nameandscore()
 	{
 		gotoxy(101,0);
 		textcolour(10);
@@ -68,7 +70,8 @@ class Snake
 
 	public:
 
-	void window() // to make the window of game which contain snake .
+	// to make the window of game which contain snake(the frame).
+	void window()
 	{
 		if(choice==1)
 		textcolour(4);
@@ -91,8 +94,8 @@ class Snake
 		}
 	}
 
-
-	void setup() // function to call function window() and design whole setup of game in command window
+    // function to call function window() and design whole setup of the game in command window
+	void setup()
 	{
 		counter=0;
 		gameover=0;
@@ -132,6 +135,8 @@ class Snake
 
 	}
 
+
+	//two functions to draw the snake and make the effect of moving
 	void drawlist(struct node *h,int k)
 	{
 		textcolour(k);
@@ -159,8 +164,8 @@ class Snake
 	}
 
 
-
-	void draw() // draw fruit in random places in window
+    // draw fruit in random places in window
+	void draw()
 	{
 
 		drawlist(head,2);
@@ -172,14 +177,15 @@ class Snake
 		destroylist(head);
 		destroylist(head2);
 	}
-   // flags refer to direction of movements
 
+
+    // flags refer to direction of movements
 	void resetflag()
 	{
-		uflag=0; // for up
-		dflag=0;// for down
-		lflag=0;//for left
-		rflag=0;//for right
+		uflag=0;   // for up
+		dflag=0;   // for down
+		lflag=0;   //for left
+		rflag=0;   //for right
 	}
 
 		void resetflag2()
@@ -190,7 +196,9 @@ class Snake
 		rflag2=0;
 	}
 
-	void play() //  set flags and direction of movement
+
+	//set flags and direction of movement
+	void play()
 	{
 		int h;
 		char ch;
@@ -224,6 +232,7 @@ class Snake
 		}
 	}
 
+    //draw the frame
 	void box(int m1,int n1,int m2,int n2)
 	{
 			for(int i=m1;i<=m2;i++)
@@ -372,7 +381,8 @@ class Snake
 
 	}
 
-	void dolist(struct node *h,int pp,int qq) // move the snake to new coordinate x and y
+    // move the snake to new coordinate x and y
+	void dolist(struct node *h,int pp,int qq)
 	{
 		struct node *ptr,*prev;
 		ptr=h;
@@ -397,9 +407,8 @@ class Snake
 	}
 
 
-
-
-	void drawagain() //// make snake cross borders when two players play
+    // make snake cross borders when two players play
+	void drawagain()
 	{
 		if(x==width)
 		{
@@ -440,7 +449,8 @@ class Snake
 		}
 	}
 
-	void generatefruit() // generate fruits in random places
+	// generate fruits in random places
+	void generatefruit()
 	{
 			label1:
 			fx=rand()%width;
@@ -452,7 +462,8 @@ class Snake
 			goto label2;
 	}
 
-	void checkfcount() // count of fruits when two players play
+	// count of fruits when two players play
+	void checkfcount()
 	{
 		if(fcount==0)
 		{
@@ -461,7 +472,8 @@ class Snake
 		}
 	}
 
-	void checkup() // check for end of game
+	// check for end of game
+	void checkup()
 	{
 		if(choice==1)
 		{
@@ -549,8 +561,8 @@ class Snake
 			dolist(head2,x2,y2);
 		}
 
-
-	void game1() // call all above functions and run the game
+    // call all above functions and run the game
+	void game1()
 	{
 		char ch;
 		welcome1();
