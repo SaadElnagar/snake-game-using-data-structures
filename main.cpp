@@ -1,5 +1,5 @@
-// code to game snake modified by students of CUFE ,as a project of data structure course
-// this game is based on doubly linked list as data structure
+//code to game snake modified by students of CUFE ,as a project of data structure course
+// this game is based on linked list as data structure
 // simple note : this game is one or two players ,so any var. is defined twice for two players we put 2 at end of its name
 #include<iostream>
 #include<windows.h>
@@ -26,7 +26,7 @@ class Snake
 	{
 		int nx,ny;
 		struct node *next;
-		struct node *back;
+		//struct node *back;
 	};
 
 	struct node *head=NULL;
@@ -80,17 +80,17 @@ class Snake
 			for(int i=0;i<=width;i++)
 		{
 			gotoxy(i,0);
-			cout<<"Û";
+			cout<<"//";
 			gotoxy(i,height);
-			cout<<"Û";
+			cout<<"//";
 		}
 
 		for(int i=0;i<=height;i++)
 		{
 			gotoxy(0,i);
-			cout<<"Û";
+			cout<<"//";
 			gotoxy(width,i);
-			cout<<"Û";
+			cout<<"//";
 		}
 	}
 
@@ -106,7 +106,7 @@ class Snake
 		head->nx=width/2;
 		head->ny=height/2;
 		head->next=NULL;
-		head->back=NULL;
+		//head->back=NULL;
 		x=width/2;
 		y=height/2;
 		label1:
@@ -129,7 +129,7 @@ class Snake
 		head2->nx=width/2+5;
 		head2->ny=height/2+5;
 		head2->next=NULL;
-		head2->back=NULL;
+		//head2->back=NULL;
 		x2=width/2+5;
 		y2=height/2+5;
 
@@ -145,7 +145,7 @@ class Snake
 		while(ptr!=NULL)
 		{
 			gotoxy(ptr->nx,ptr->ny);
-			cout<<"Û";
+			cout<<"-";
 			ptr=ptr->next;
 		}
 	}
@@ -384,26 +384,24 @@ class Snake
     // move the snake to new coordinate x and y
 	void dolist(struct node *h,int pp,int qq)
 	{
-		struct node *ptr,*prev;
+		struct node *ptr;
+		int sx,sy;
 		ptr=h;
-		prev=h;
+		sx = ptr->nx;
+		sy = ptr->ny;
+		ptr->nx=pp;
+		ptr->ny=qq;
 
+        if(ptr->next!=NULL)
+        {
+            ptr=ptr->next;
 		while(ptr->next!=NULL)
 		{
-			prev=ptr;
-			ptr=ptr->next;
+		swap(ptr->nx,sx);
+		swap(ptr->ny,sy);
+        ptr=ptr->next;
 		}
-		while(prev!=h)
-		{
-			ptr->nx=prev->nx;
-			ptr->ny=prev->ny;
-			prev=prev->back;
-			ptr=ptr->back;
-		}
-		ptr->nx=prev->nx;
-		ptr->ny=prev->ny;
-		prev->nx=pp;
-		prev->ny=qq;
+        }
 	}
 
 
@@ -503,22 +501,20 @@ class Snake
 				fcount--;
 				checkfcount();
 			}
-			struct node *t,*ptr,*prev; // add one node at end of linked list when snake eats fruit
+			struct node *t,*ptr; // add one node at end of linked list when snake eats fruit
 			t=new node;
 			t->next=NULL;
-			t->back=NULL;
 				ptr=head;
-				prev=head;
 				while(ptr->next!=NULL)
 				{
 					ptr=ptr->next;
 				}
 				ptr->next=t;
-				t->back=ptr;
 				generatefruit();
 			counter++;
 			nameandscore();
 		}
+
 			dolist(head,x,y);
 		}
 
@@ -542,18 +538,15 @@ class Snake
 		{
 			fcount--;
 			checkfcount();
-			struct node *t,*ptr,*prev;
+			struct node *t,*ptr;
 			t=new node;
 			t->next=NULL;
-			t->back=NULL;
 				ptr=head2;
-				prev=head2;
 				while(ptr->next!=NULL)
 				{
 					ptr=ptr->next;
 				}
 				ptr->next=t;
-				t->back=ptr;
 				generatefruit();
 				counter2++;
 				nameandscore();
